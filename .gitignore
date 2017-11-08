@@ -1,0 +1,6 @@
+vendor
+npm-debug.log
+
+# IntelliJ
+.idea/
+*.iml
