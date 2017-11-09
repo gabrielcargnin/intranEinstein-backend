@@ -11,4 +11,17 @@ class AuthController extends Controller
     {
         return $request->user();
     }
+
+    public function logout(Request $request)
+    {
+        $request->user('api')->token()->revoke();
+
+        return response([
+            'message' => 'Usuário foi deslogado com sucesso'
+        ]);
+    }
+
+    public function mudarSenha(Request $request) {
+
+    }
 }

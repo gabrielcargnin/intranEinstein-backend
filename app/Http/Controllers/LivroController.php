@@ -2,34 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreLivroRequest;
+use App\Http\Requests\UpdateLivroRequest;
 use App\Livro;
-use App\Repositories\LivroRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class LivroController extends Controller
 {
     /**
-     * @var LivroRepository
+     * @var Livro
      */
-    private $livroRepository;
+    private $livro;
+
 
     /**
      * LivroController constructor.
      */
-    public function __construct(LivroRepository $livroRepository)
+    public function __construct(Livro $livro)
     {
-        $this->livroRepository = $livroRepository;
+        $this->livro = $livro;
     }
 
     public function list()
     {
-        $livros = $this->livroRepository->list();
+        $livros = $this->livro->all();
         return response()->json($livros);
     }
 
     public function get($id)
     {
-        $livro = $this->livroRepository->get($id);
+        $livro = $this->livro->find($id);
         if ($livro) {
             return response()->json($livro);
         }
@@ -38,24 +41,26 @@ class LivroController extends Controller
 
     public function delete($id)
     {
-        if($this->livroRepository->delete($id)) {
+        if ($this->livro->destroy($id)) {
             return response()->json(['message' => 'Livro deletado'], 200);
         }
         return response()->json(['message' => 'Livro não foi deletado'], 400);
     }
 
-    public function create(Request $request) {
-        if ($this->livroRepository->create(new Livro($request->all()))) {
+    public function create(StoreLivroRequest $request)
+    {
+        if ($this->livro->fill($request->all())->save()) {
             return response()->json(['message' => 'Livro registrado'], 201);
         }
-        return response()->json(['message' => 'Livro não foi registrado'], 400);
+        return response()->json($e, 400);
     }
 
-    public function update(Request $request, $id) {
-        if (!$this->livroRepository->get($id)) {
+    public function update(UpdateLivroRequest $request, $id)
+    {
+        if (!$this->livro->find($id)) {
             return response()->json(['message' => 'Livro não foi encontrado'], 400);
         }
-        if($this->livroRepository->update(new Livro($request->all()))) {
+        if ($this->livro->updateRow(new Livro($request->all()))) {
             return response()->json(['message' => 'Livro editado'], 200);
         }
         return response()->json(['message' => 'Livro não foi editado'], 400);

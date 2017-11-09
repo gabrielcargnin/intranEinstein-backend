@@ -18,4 +18,5 @@ class Livro extends Model
     {
         return Livro::newQuery()->where('id_livro', $livro->id_livro)->update($livro->toArray());
     }
+
 }

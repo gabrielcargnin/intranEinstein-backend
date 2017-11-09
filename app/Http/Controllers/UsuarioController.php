@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UsuarioRepository;
 use App\User;
 use App\Usuario;
@@ -47,7 +48,7 @@ class UsuarioController extends Controller
         return response()->json(['message' => 'Usuário não foi deletado'], 400);
     }
 
-    public function update(Request $request, $id) {
+    public function update(UpdateUserRequest $request, $id) {
         if (!$this->user->find($id)) {
             return response()->json(['message' => 'Usuário não foi encontrado'], 400);
         }
