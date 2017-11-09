@@ -11,35 +11,3 @@
 |
 */
 
-
-Route::group(array('prefix' => 'api/livros'), function () {
-    Route::get('/', 'LivroController@list');
-
-    Route::get('/{id}', 'LivroController@get');
-
-    Route::delete('/{id}', 'LivroController@delete');
-
-    Route::post('/', 'LivroController@create');
-
-    Route::put('/{id}', 'LivroController@update');
-});
-
-Route::group(array('prefix' => 'api/usuarios'), function () {
-    Route::get('/', 'UsuarioController@list');
-
-    Route::get('/{id}', 'UsuarioController@get');
-
-    Route::delete('/{id}', 'UsuarioController@delete');
-
-    Route::post('/', 'UsuarioController@create');
-
-    Route::put('/{id}', 'UsuarioController@update');
-});
-
-Route::group(array('prefix' => 'api/emprestimos'), function () {
-    Route::post('/empresta', 'EmprestimoController@emprestimo');
-
-    Route::put('/devolve', 'EmprestimoController@devolve');
-
-    Route::get('/', 'EmprestimoController@getEmprestimosById');
-});
