@@ -11,15 +11,13 @@ class EmprestimoRepository
     /**
      * @var \App\Repositories\LivroRepository
      */
-    private $livroRepository;
     private $emprestimoTable;
 
     /**
      * EmprestimoRepository constructor.
      */
-    public function __construct(LivroRepository $livroRepository)
+    public function __construct()
     {
-        $this->livroRepository = $livroRepository;
         $this->emprestimoTable = DB::table('emprestimo_livro');
     }
 
@@ -27,7 +25,7 @@ class EmprestimoRepository
     {
         if (array_key_exists("id_usuario", $ids) && array_key_exists("id_livro", $ids)) {
             DB::beginTransaction();
-            $livro = $this->livroRepository->get($ids['id_livro']);
+            $livro = Livro::find($ids['id_livro']);
             if ($livro) {
                 $livro->disponibilidade = 0;
                 if ($this->livroRepository->update($livro)) {
