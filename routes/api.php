@@ -19,6 +19,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/users', 'AuthController@users');
     Route::post('/logout', 'AuthController@logout');
+    Route::post('/changePassword', 'AuthController@changePassword');
 
     Route::group(array('prefix' => '/usuarios'), function () {
         Route::get('/', 'UsuarioController@list');
