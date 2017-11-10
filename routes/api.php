@@ -18,6 +18,8 @@ Route::post('/register', 'RegisterController@register');
 Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/users', 'AuthController@users');
+    Route::post('/logout', 'AuthController@logout');
+    Route::post('/changePassword', 'AuthController@changePassword');
 
     Route::group(array('prefix' => '/usuarios'), function () {
         Route::get('/', 'UsuarioController@list');
@@ -29,7 +31,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::put('/{id}', 'UsuarioController@update');
     });
 
-    Route::group(array('prefix' => 'api/emprestimos'), function () {
+    Route::group(array('prefix' => '/emprestimos'), function () {
         Route::post('/empresta', 'EmprestimoController@emprestimo');
 
         Route::put('/devolve', 'EmprestimoController@devolve');
@@ -37,7 +39,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/', 'EmprestimoController@getEmprestimosById');
     });
 
-    Route::group(array('prefix' => 'api/livros'), function () {
+    Route::group(array('prefix' => '/livros'), function () {
         Route::get('/', 'LivroController@list');
 
         Route::get('/{id}', 'LivroController@get');
