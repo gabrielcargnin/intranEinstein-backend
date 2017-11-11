@@ -21,7 +21,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/logout', 'AuthController@logout');
     Route::post('/changePassword', 'AuthController@changePassword');
 
-    Route::group(array('prefix' => '/usuarios'), function () {
+    Route::group(['prefix' => '/usuarios'], function () {
         Route::get('/', 'UsuarioController@list');
 
         Route::get('/{id}', 'UsuarioController@get');
@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::put('/{id}', 'UsuarioController@update');
     });
 
-    Route::group(array('prefix' => '/emprestimos'), function () {
+    Route::group(['prefix' => '/emprestimos'], function () {
         Route::post('/empresta', 'EmprestimoController@emprestimo');
 
         Route::put('/devolve', 'EmprestimoController@devolve');
@@ -39,7 +39,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/', 'EmprestimoController@getEmprestimosById');
     });
 
-    Route::group(array('prefix' => '/livros'), function () {
+    Route::group(['prefix' => '/livros'], function () {
         Route::get('/', 'LivroController@list');
 
         Route::get('/{id}', 'LivroController@get');
@@ -49,6 +49,18 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::post('/', 'LivroController@create');
 
         Route::put('/{id}', 'LivroController@update');
+    });
+
+    Route::group(['prefix' => '/simulados'], function () {
+        Route::get('/', 'SimuladoController@list');
+
+        Route::get('/{id}', 'SimuladoController@get');
+
+        Route::delete('/{id}', 'SimuladoController@delete');
+
+        Route::post('/', 'SimuladoController@create');
+
+        Route::put('/{id}', 'SimuladoController@update');
     });
 
 });

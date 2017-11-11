@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
-use App\Repositories\UsuarioRepository;
 use App\User;
-use App\Usuario;
-use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
 {
@@ -32,7 +29,7 @@ class UsuarioController extends Controller
 
     public function get($id)
     {
-        $usuario = $this->user->find($id);
+        $usuario = $this->user::query()->find($id);
         if ($usuario) {
             return response()->json($usuario);
         }
@@ -48,7 +45,7 @@ class UsuarioController extends Controller
     }
 
     public function update(UpdateUserRequest $request, $id) {
-        if (!$this->user->find($id)) {
+        if (!$this->user::query()->find($id)) {
             return response()->json(['message' => 'Usuário não foi encontrado'], 400);
         }
         if($this->user->updateRow(new User($request->all()))) {

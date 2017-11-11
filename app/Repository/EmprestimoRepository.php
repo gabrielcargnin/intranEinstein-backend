@@ -25,10 +25,10 @@ class EmprestimoRepository
     {
         if (array_key_exists("id_usuario", $ids) && array_key_exists("id_livro", $ids)) {
             DB::beginTransaction();
-            $livro = Livro::find($ids['id_livro']);
+            $livro = Livro::query()->find($ids['id_livro']);
             if ($livro) {
                 $livro->disponibilidade = 0;
-                if ($this->livroRepository->update($livro)) {
+                if (Livro::query()->update($livro)) {
                     $date = strtotime("+15 day");
                     $data_devolucao = date('Y-m-d', $date);
                     $this->emprestimoTable->insert(

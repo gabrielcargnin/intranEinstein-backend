@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLivroRequest;
 use App\Http\Requests\UpdateLivroRequest;
 use App\Livro;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 
 class LivroController extends Controller
 {
@@ -32,7 +30,7 @@ class LivroController extends Controller
 
     public function get($id)
     {
-        $livro = $this->livro->find($id);
+        $livro = $this->livro::query()->find($id);
         if ($livro) {
             return response()->json($livro);
         }
