@@ -20,4 +20,5 @@ class RegisterController extends Controller
         }
         return response('Não foi possível registrar usuário', 400);
     }
+
 }

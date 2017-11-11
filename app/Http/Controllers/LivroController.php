@@ -52,7 +52,7 @@ class LivroController extends Controller
         if ($this->livro->fill($request->all())->save()) {
             return response()->json(['message' => 'Livro registrado'], 201);
         }
-        return response()->json($e, 400);
+        return response()->json(['message' => 'Livro não foi registrado.'], 400);
     }
 
     public function update(UpdateLivroRequest $request, $id)
