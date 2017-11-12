@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\User;
 
@@ -52,6 +53,15 @@ class UsuarioController extends Controller
             return response()->json(['message' => 'Usuário editado'], 200);
         }
         return response()->json('Usuário não foi editado', 400);
+    }
+
+    public function create(StoreUserRequest $request)
+    {
+        $this->user = new User($request->all());
+        if ($this->user->save()) {
+            return response('Usuário registrado com sucesso', 200);
+        }
+        return response('Não foi possível registrar usuário', 400);
     }
 
 }

@@ -26,9 +26,11 @@ Route::group(['middleware' => ['auth:api']], function () {
 
         Route::get('/{id}', 'UsuarioController@get');
 
-        Route::delete('/{id}', 'UsuarioController@delete');
+        Route::delete('/{id}', 'UsuarioController@delete')->middleware('check.feature:master');
 
-        Route::put('/{id}', 'UsuarioController@update');
+        Route::put('/{id}', 'UsuarioController@update')->middleware('check.feature:master');
+
+        Route::post('/', 'UsuarioController@create')->middleware('check.feature:master');
     });
 
     Route::group(['prefix' => '/emprestimos'], function () {
@@ -44,11 +46,11 @@ Route::group(['middleware' => ['auth:api']], function () {
 
         Route::get('/{id}', 'LivroController@get');
 
-        Route::delete('/{id}', 'LivroController@delete');
+        Route::delete('/{id}', 'LivroController@delete')->middleware('check.feature:bruxo');
 
-        Route::post('/', 'LivroController@create');
+        Route::post('/', 'LivroController@create')->middleware('check.feature:bruxo');
 
-        Route::put('/{id}', 'LivroController@update');
+        Route::put('/{id}', 'LivroController@update')->middleware('check.feature:bruxo');
     });
 
     Route::group(['prefix' => '/simulados'], function () {
@@ -56,12 +58,14 @@ Route::group(['middleware' => ['auth:api']], function () {
 
         Route::get('/{id}', 'SimuladoController@get');
 
-        Route::delete('/{id}', 'SimuladoController@delete');
+        Route::group(['middleware' => ['check.feature:bruxo']], function () {
+            Route::delete('/{id}', 'SimuladoController@delete');
 
-        Route::post('/', 'SimuladoController@create');
+            Route::post('/', 'SimuladoController@create');
 
-        Route::put('/{id}', 'SimuladoController@update');
+            Route::put('/{id}', 'SimuladoController@update');
+        });
+
     });
-
 });
 
