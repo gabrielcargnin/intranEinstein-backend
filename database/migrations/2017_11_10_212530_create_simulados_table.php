@@ -18,8 +18,8 @@ class CreateSimuladosTable extends Migration
             $table->date('data_inicio_inscricao');
             $table->date('data_fim_inscricao');
             $table->enum('modelo', ['UFSC', 'ENEM', 'UDESC']);
-            $table->jsonb('datas_aplicacao');
-            $table->jsonb('horarios_apli/cacao');
+            $table->text('datas_aplicacao');
+            $table->text('horarios_aplicacao');
             $table->timestamps();
         });
     }

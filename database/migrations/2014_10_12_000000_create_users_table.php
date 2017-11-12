@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('cpf',11)->unique();
             $table->timestamp('ultimo_acesso')->nullable(true);
+            $table->text('features')->nullable(true);
             $table->rememberToken();
             $table->timestamps();
         });
