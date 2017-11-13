@@ -17,9 +17,14 @@ Route::post('/register', 'RegisterController@register');
 
 Route::group(['middleware' => ['auth:api']], function () {
 
-    Route::get('/users', 'AuthController@users');
-    Route::post('/logout', 'AuthController@logout');
-    Route::post('/changePassword', 'AuthController@changePassword');
+    Route::group(['prefix' => '/oauth'], function () {
+
+        Route::get('/user', 'AuthController@users');
+
+        Route::post('/logout', 'AuthController@logout');
+
+        Route::post('/changePassword', 'AuthController@changePassword');
+    });
 
     Route::group(['prefix' => '/usuarios'], function () {
         Route::get('/', 'UsuarioController@list');
