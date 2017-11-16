@@ -16,7 +16,8 @@ class CreateEmprestimoTable extends Migration
         Schema::create('emprestimo', function (Blueprint $table) {
             $table->increments('id_emprestimo');
             $table->date('data_emprestimo');
-            $table->date('data_devolucao')->nullable(true);
+            $table->date('data_devolucao');
+            $table->date('data_entregue')->nullable(true);
             $table->boolean('renovacao')->default(false);
 
             $table->unsignedInteger('id_usuario');
