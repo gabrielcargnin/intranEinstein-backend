@@ -36,11 +36,13 @@ class EmprestimoRepository
                 if ($this->livro->updateRow($livro)) {
                     $date = strtotime("+15 day");
                     $data_devolucao = date('Y-m-d', $date);
+                    $data_emprestimo = date('Y-m-d');
                     $this->emprestimoTable->insert(
                         [
                             'id_usuario'         => $ids['id_usuario'],
                             'id_livro'           => $ids['id_livro'],
-                            'data_devolucao'     => $data_devolucao
+                            'data_devolucao'     => $data_devolucao,
+                            'data_emrpestimo' => $data_emprestimo
                         ]
                     );
                     DB::commit();
