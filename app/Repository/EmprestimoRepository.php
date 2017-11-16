@@ -12,13 +12,18 @@ class EmprestimoRepository
      * @var \App\Repositories\LivroRepository
      */
     private $emprestimoTable;
+    /**
+     * @var Livro
+     */
+    private $livro;
 
     /**
      * EmprestimoRepository constructor.
      */
-    public function __construct()
+    public function __construct(Livro $livro)
     {
         $this->emprestimoTable = DB::table('emprestimo_livro');
+        $this->livro = $livro;
     }
 
     public function emprestimo($ids)
@@ -28,7 +33,7 @@ class EmprestimoRepository
             $livro = Livro::query()->find($ids['id_livro']);
             if ($livro) {
                 $livro->disponibilidade = 0;
-                if (Livro::query()->update($livro)) {
+                if ($this->livro->updateRow($livro)) {
                     $date = strtotime("+15 day");
                     $data_devolucao = date('Y-m-d', $date);
                     $this->emprestimoTable->insert(
