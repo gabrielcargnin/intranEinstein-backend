@@ -39,9 +39,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 
     Route::group(['prefix' => '/emprestimos'], function () {
-        Route::post('/empresta', 'EmprestimoController@emprestimo');
+        Route::post('/', 'EmprestimoController@emprestimo');
 
-        Route::put('/devolve', 'EmprestimoController@devolve');
+        Route::put('/', 'EmprestimoController@devolve');
 
         Route::get('/', 'EmprestimoController@getEmprestimosById');
     });
