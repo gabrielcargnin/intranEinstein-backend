@@ -62,7 +62,7 @@ class EmprestimoRepository
             ])
             ->join('livros', 'livros.id_livro', '=', 'emprestimo_livro.id_livro')
             ->select(
-            'livros.autor', 'livros.titulo', 'emprestimo_livro.data_devolucao'
+            'livros.autor', 'livros.titulo', 'emprestimo_livro.data_devolucao', 'emprestimo_livro.data_emprestimo'
             )
             ->get();
         return $livros;
