@@ -42,7 +42,7 @@ class EmprestimoRepository
                             'id_usuario'         => $ids['id_usuario'],
                             'id_livro'           => $ids['id_livro'],
                             'data_devolucao'     => $data_devolucao,
-                            'data_emrpestimo' => $data_emprestimo
+                            'data_emprestimo' => $data_emprestimo
                         ]
                     );
                     DB::commit();
