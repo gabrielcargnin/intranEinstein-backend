@@ -28,6 +28,10 @@ class LivroController extends Controller
         return response()->json($livros);
     }
 
+    public function getLivrosDisponiveis() {
+
+    }
+
     public function get($id)
     {
         $livro = $this->livro::query()->find($id);
