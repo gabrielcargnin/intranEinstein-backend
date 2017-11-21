@@ -68,17 +68,17 @@ class EmprestimoRepository
         return $livros;
     }
 
-    public function devolve($id_emprestimo_livro) {
-        if ($id_emprestimo_livro) {
+    public function devolve($id_emprestimo) {
+        if ($id_emprestimo) {
             DB::beginTransaction();
             $hoje = date('Y-m-d');
-            $this->emprestimoTable->where('id_emprestimo_livro', $id_emprestimo_livro)
+            $this->emprestimoTable->where('id_emprestimo', $id_emprestimo)
                 ->update([
                     'data_entregue' => $hoje
                 ]);
             try {
                 DB::table('livros')
-                    ->whereRaw('id_livro = (SELECT id_livro FROM emprestimo_livro WHERE id_emprestimo_livro = ?)', [$id_emprestimo_livro])
+                    ->whereRaw('id_livro = (SELECT id_livro FROM emprestimo_livro WHERE id_emprestimo = ?)', [$id_emprestimo])
                     ->update([
                         'disponibilidade' => 1
                     ]);

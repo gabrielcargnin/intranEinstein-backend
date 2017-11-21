@@ -43,7 +43,7 @@ class EmprestimoController extends Controller
 
     public function devolve()
     {
-        if ($this->emprestimoRepository->devolve(Input::get('idEmprestimoLivro'))) {
+        if ($this->emprestimoRepository->devolve(Input::get('id'))) {
             return response()->json(['message' => 'Livro devolvido'], 200);
         }
         return response()->json(['message' => 'Livro não foi devolvido'], 400);
