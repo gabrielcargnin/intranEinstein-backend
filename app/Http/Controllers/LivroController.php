@@ -29,7 +29,8 @@ class LivroController extends Controller
     }
 
     public function getLivrosDisponiveis() {
-
+        $livros = $this->livro->livrosDisponiveis();
+        return response()->json($livros);
     }
 
     public function get($id)

@@ -19,4 +19,8 @@ class Livro extends Model
         return Livro::newQuery()->where('id_livro', $livro->id_livro)->update($livro->toArray());
     }
 
+    public function livrosDisponiveis() {
+        return Livro::newQuery()->where('disponibilidade', 1)->get();
+    }
+
 }

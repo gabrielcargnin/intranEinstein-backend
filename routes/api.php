@@ -49,6 +49,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::group(['prefix' => '/livros'], function () {
         Route::get('/', 'LivroController@list');
 
+        Route::get('/disponiveis', 'LivroController@getLivrosDisponiveis');
+
         Route::get('/{id}', 'LivroController@get');
 
         Route::delete('/{id}', 'LivroController@delete')->middleware('check.feature:bruxo');
