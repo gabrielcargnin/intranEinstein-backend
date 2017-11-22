@@ -26,35 +26,42 @@ class EmprestimoRepository
         $this->livro = $livro;
     }
 
-    public function emprestimo($ids)
+    public function emprestimo($ids, $id_usuario)
     {
-        if (array_key_exists("id_usuario", $ids) && array_key_exists("id_livro", $ids)) {
+        if (isset($id_usuario) && isset($ids)) {
             DB::beginTransaction();
-            $livro = Livro::query()->find($ids['id_livro']);
-            if ($livro) {
-                $livro->disponibilidade = 0;
-                if ($this->livro->updateRow($livro)) {
-                    $date = strtotime("+15 day");
-                    $data_devolucao = date('Y-m-d', $date);
-                    $data_emprestimo = date('Y-m-d');
-                    $this->emprestimoTable->insert(
-                        [
-                            'id_usuario'         => $ids['id_usuario'],
-                            'id_livro'           => $ids['id_livro'],
-                            'data_devolucao'     => $data_devolucao,
-                            'data_emprestimo' => $data_emprestimo
-                        ]
-                    );
-                    DB::commit();
-                    return true;
+            $linhasAtualizadas = 0;
+            foreach ($ids as $id_livro) {
+                $livro = Livro::query()->find($id_livro);
+                if ($livro) {
+                    $livro->disponibilidade = 0;
+                    if ($this->livro->updateRow($livro)) {
+                        $date = strtotime("+15 day");
+                        $data_devolucao = date('Y-m-d', $date);
+                        $data_emprestimo = date('Y-m-d');
+                        $this->emprestimoTable->insert(
+                            [
+                                'id_usuario' => $id_usuario,
+                                'id_livro' => $id_livro,
+                                'data_devolucao' => $data_devolucao,
+                                'data_emprestimo' => $data_emprestimo
+                            ]
+                        );
+                        $linhasAtualizadas++;
+                    }
                 }
             }
-            DB::rollBack();
+            if ($linhasAtualizadas == count($ids)) {
+                DB::commit();
+                return true;
+            }
         }
+        DB::rollBack();
         return false;
     }
 
-    public function getEmprestimosById($id_usuario) {
+    public function getEmprestimosById($id_usuario)
+    {
         $livros = $this->emprestimoTable
             ->where([
                 ['id_usuario', '=', $id_usuario],
@@ -62,13 +69,14 @@ class EmprestimoRepository
             ])
             ->join('livros', 'livros.id_livro', '=', 'emprestimo_livro.id_livro')
             ->select(
-            'livros.autor', 'livros.titulo', 'emprestimo_livro.data_devolucao', 'emprestimo_livro.data_emprestimo'
+                'emprestimo.id_emprestimo', 'livros.autor', 'livros.titulo', 'emprestimo_livro.data_devolucao', 'emprestimo_livro.data_emprestimo'
             )
             ->get();
         return $livros;
     }
 
-    public function devolve($id_emprestimo) {
+    public function devolve($id_emprestimo)
+    {
         if ($id_emprestimo) {
             DB::beginTransaction();
             $hoje = date('Y-m-d');
@@ -82,8 +90,7 @@ class EmprestimoRepository
                     ->update([
                         'disponibilidade' => 1
                     ]);
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 DB::rollBack();
                 return false;
             }
