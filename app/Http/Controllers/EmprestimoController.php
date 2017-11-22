@@ -23,9 +23,8 @@ class EmprestimoController extends Controller
 
     public function emprestimo(Request $request)
     {
-        $ids['id_livro'] = $request->input('id_livro');
-        $ids['id_usuario'] = $request->user()->id_usuario;
-        if ($this->emprestimoRepository->emprestimo($ids)) {
+        $ids = $request->input('ids');
+        if ($this->emprestimoRepository->emprestimo($ids, $request->user()->id_usuario)) {
             return response()->json(['message' => 'Empréstimo realizado'], 200);
         }
         return response()->json(['message' => 'Empréstimo não foi realizado'], 400);
